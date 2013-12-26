@@ -1,0 +1,14 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=4811
+
+While Vim is renown for its text manipulation capabilities, it nevertheless retains a bias towards ASCII that stretches back to its vi roots on Unix. This can limit the appeal of this powerful editor for those who prefer typographic characters like curly quotes over "straight quotes" in the prose or documentation they write.
+
+Features of this plugin:
+
+* Automatic entry of typographic quotes from the 'straight quote' keys
+* Motion support for typographic quote pairs
+* Matchit % matching for typographic quote pairs
+* User can define alternative typographic quote pairs
+* Replace quotes in existing text, including entire buffer
+* Support for the tpope/vim-surround plugin
+
+The latest version of plugin, including configuration details and a brief animated demo, can be found at: https://github.com/reedes/vim-quotable
