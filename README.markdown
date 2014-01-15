@@ -115,26 +115,6 @@ map to keys via your `.vimrc`:
   nmap <silent> <leader>qq :QuotableEducateToggle<cr>
   ```
 
-### Basic and advanced levels
-
-The educate feature has two levels of functionality: basic(1) and advanced(2)
-which can be configured via a global variable in your `.vimrc`:
-
-  ```vim
-  let g:quotable#educateLevel = 1     " 1=basic, 2=advanced
-  ```
-
-As the name would imply, the basic(1) level provides basic support for
-typographic quotes, with no-frills behavior. This is the default.
-
-Or you may prefer the advanced(2) mode that provides context as you type. With
-this mode, a matching pair of quotes (`“”` or `‘’`) will be inserted together
-rather than a single opening quote. The closing quote(s) will be then be pushed
-ahead of your inserted text. You can step through the closing quote by hitting
-the corresponding quote key (`"` or `'`) where there is no need to exit Insert
-mode or use arrow keys. Or better yet, move past the closing quote(s) with a 
-motion command, such as `«Ctrl-O» W`.
-
 ## Motion commands
 
 Motion commands are a powerful feature of Vim.
@@ -270,8 +250,10 @@ If you like this plugin, you might like these others from the same author:
 * [vim-lexical](http://github.com/reedes/vim-lexical) - Building on Vim’s spell-check and thesaurus/dictionary completion
 * [vim-litecorrect](http://github.com/reedes/vim-litecorrect) - Lightweight auto-correction for Vim
 * [vim-thematic](http://github.com/reedes/vim-thematic) — Conveniently manage Vim’s appearance to suit your task and environment 
-* [vim-pencil](http://github.com/reedes/vim-pencil) - Extending Vim to better support writing prose and documentation
+* [vim-pencil](http://github.com/reedes/vim-pencil) - Rethinking Vim as a tool for writers
 * [vim-colors-pencil](http://github.com/reedes/vim-colors-pencil) — A color scheme for Vim inspired by IA Writer
+
+* [quotable at vim.org](http://www.vim.org/scripts/script.php?script_id=4811)
 
 ## Future development
 

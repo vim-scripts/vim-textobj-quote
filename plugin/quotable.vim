@@ -2,7 +2,7 @@
 " File:        quotable.vim
 " Description: vim-quotable plugin
 " Maintainer:  Reed Esau <github.com/reedes>
-" Last Change: December 25, 2013
+" Created:     December 25, 2013
 " License:     The MIT License (MIT)
 " ============================================================================
 
@@ -32,12 +32,6 @@ endif
 if !exists('g:quotable#singleDefault')
   "  ‘single’
   let g:quotable#singleDefault = g:quotable#singleStandard
-endif
-
-if !exists('g:quotable#educateLevel')
-  " 1: basic
-  " 2: advanced
-  let g:quotable#educateLevel = 1
 endif
 
 " needed to match pairs of quotes (via tpope/vim-sensible)

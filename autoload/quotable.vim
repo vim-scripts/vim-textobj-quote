@@ -2,7 +2,7 @@
 " File:        quotable.vim
 " Description: autoload functions for vim-quotable plugin
 " Maintainer:  Reed Esau <github.com/reedes>
-" Last Change: December 25, 2013
+" Created:     December 25, 2013
 " License:     The MIT License (MIT)
 " ============================================================================
 
@@ -16,8 +16,6 @@ let autoloaded_quotable = 1
 " TODO support these constants
 "let s:KEY_MODE_DOUBLE = 1
 "let s:KEY_MODE_SINGLE = 0
-"let s:LEVEL_BASIC     = 1
-"let s:LEVEL_ADVANCED  = 2
 
 function! s:unicode_enabled()
   return &encoding == 'utf-8'
@@ -28,82 +26,27 @@ function! s:educateQuotes(mode)
   " mode=1 is double; mode=0 is single
   " Can't use simple byte offset to find previous character,
   " due to unicode characters having more than one byte!
-  if a:mode
-    let l:l = b:quotable_dl
-    let l:r = b:quotable_dr
-  else
-    let l:l = b:quotable_sl
-    let l:r = b:quotable_sr
-  endif
-  let l:mline = getline('.')
-  let l:mcol = col('.')
-  let l:next_chars = split(strpart(l:mline, l:mcol-1, 4), '\zs')
-  let l:next_char_count = len(l:next_chars)
-  let l:next_char = l:next_char_count > 0 ? l:next_chars[0] : ''
-  if g:quotable#educateLevel == 2 && l:next_char ==# l:r
-    " next char is the closer, where we'll skip over it
-    if l:next_char_count > 1
-      normal! l
-    else
-      startinsert!
-    endif
-  else
-    " we'll open or close as need be
-    let l:prev_chars = split(strpart(l:mline, 0, l:mcol-1), '\zs')
-    let l:prev_char_count = len(l:prev_chars)
-    let l:prev_char =
-      \ l:prev_char_count > 0
-      \ ? l:prev_chars[ l:prev_char_count - 1 ]
-      \ : ''
-    if l:prev_char =~# '^\(\|\s\|{\|(\|\[\|&\)$' ||
-     \ l:prev_char ==# (a:mode ? b:quotable_sl : b:quotable_dl)
-      let l:is_paired =
-        \ g:quotable#educateLevel == 2 &&
-        \   (l:next_char =~# '^\(\s\|\)$' ||
-        \    l:next_char ==# (a:mode ? b:quotable_sr : b:quotable_dr))
-      let @z = l:l . (l:is_paired ? l:r : '')
-    else
-      let l:is_paired = 0
-      let @z = l:r
-    endif
-    let l:is_all = &virtualedit =~# 'all'
-    let l:is_block = &virtualedit =~# 'block'
-    let l:is_all_but_not_block = l:is_all && !l:is_block
-    " Now paste the quote char(s) and move as needed
-    if l:next_char_count
-      " one or more characters to the right
-      " Be sure to test dropping quote in middle of text
-      if l:is_paired
-        normal! "zgPh
-      else
-        normal! "zgP
-      endif
-    else
-      " no characters to the right
-      if l:is_all_but_not_block
-        " avoid inserting an extra space before the pasted text
-        if l:is_paired
-          normal! "zgPh
-        else
-          normal! "zgP
-        endif
-      else
-        normal! "zp
-        if ! l:is_paired
-          " need to force insert to get past entered character
-          startinsert!
-        endif
-      endif
-    endif
-  endif
+  let l:prev_char =
+    \ get( split(strpart(getline('.'), 0, col('.')-1), '\zs'),
+    \      -1,
+    \      '')
+  return
+    \ l:prev_char =~# '^\(\|\s\|{\|(\|\[\|&\)$' ||
+    \ l:prev_char ==# (a:mode ? b:quotable_sl : b:quotable_dl)
+    \ ? (a:mode ? b:quotable_dl : b:quotable_sl)
+    \ : (a:mode ? b:quotable_dr : b:quotable_sr)
 endfunction
 
 function! quotable#mapKeysToEducate(...)
   " Un/Map keys to un/educate quotes for current buffer
   let b:quotable_educate_mapped = a:0 ? !!a:1 : 1
+  if !exists('b:quotable_dl')
+    call quotable#init()
+  endif
   if b:quotable_educate_mapped
-    inoremap <buffer> " <C-\><C-O>:call <SID>educateQuotes(1)<CR>
-    inoremap <buffer> ' <C-\><C-O>:call <SID>educateQuotes(0)<CR>
+    " For details on the leading <C-R>, see :help ins-special-special
+    inoremap <buffer> " <C-R>=<SID>educateQuotes(1)<CR>
+    inoremap <buffer> ' <C-R>=<SID>educateQuotes(0)<CR>
   else
     silent! iunmap <buffer> "
     silent! iunmap <buffer> '
