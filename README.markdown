@@ -15,6 +15,7 @@ Features of this plugin:
 * Motion support for typographic quote pairs
 * Matchit `%` matching for typographic quote pairs
 * User can define alternative typographic quote pairs
+* Replace quotes in existing text, including entire buffer
 * Support for the [vim-surround][] plugin
 
 [vim-surround]: https://github.com/tpope/vim-surround
@@ -66,8 +67,8 @@ straight quote keys:
   ```
 
 As expected all the quotes are straight ones. But with this plugin, the
-straight quotes are transformed into the appropriate typographic equivalent
-as you type:
+straight quotes are transformed into the typographic equivalent as you
+type:
 
   ```
   “It’s Dr. Evil. I didn’t spend six years in Evil Medical School to be called ‘mister,’
@@ -142,11 +143,27 @@ to your `.vimrc`, changing the motion characters as you desire:
 
 Matchit enables jumping to matching quotes.
 
-* `%` - jump to the matching typographic quote character
+* `%` - jump to the matching typographic (curly) quote character
+
+## Replace support
+
+You can replace straight quotes in existing text with curly quotes, and
+visa versa. Add key mappings of your choice to your `.vimrc`:
+
+```
+map <silent> <leader>qc <Plug>QuotableReplaceWithCurly
+map <silent> <leader>qs <Plug>QuotableReplaceWithStraight
+```
+
+Both _Normal_ and _Visual_ modes are supported by this feature.
+
+To transform all quotes in a document, use _Visual_ mode to select all the
+text in the document.
 
 ## Surround support
 
-This plugin supports basic surround capabilities. Add to your `.vimrc`:
+This plugin supports basic surround capabilities. Add to your `.vimrc` key
+mappings of your choice:
 
   ```vim
   " NOTE: be sure to remove these mappings if using the tpope/vim-surround plugin!
@@ -203,7 +220,7 @@ For example, to enter left double quotation mark `“`, precede the digraph code
 
 * `«Ctrl-K» "6`
 
-Alternatively, if you’re on OS X, you can enter `Opt-[` to enter this
+Alternatively, if you’re on OS X, you can use `Opt-[` to enter this
 character.
 
 For more details, see:
@@ -212,9 +229,9 @@ For more details, see:
 
 ## International support
 
-Many international keyboards feature keys to allow you to input the desired
-typographic quote directly. In such cases, you won’t need to change the
-behavior of the straight quote keys.
+Many international keyboards feature keys to allow you to input 
+typographic quote characters directly. In such cases, you won’t need 
+to change the behavior of the straight quote keys.
 
 But if you do, a standard convention is used by default:
 
@@ -223,7 +240,7 @@ But if you do, a standard convention is used by default:
   let g:quotable#singleDefault = '‘’'     " ‘single’
   ```
 
-Those users editing all of their prose in German may want to change their
+Those users editing most of their prose in German may want to change their
 defaults to:
 
   ```vim
@@ -236,24 +253,24 @@ pairings within a single buffer, adding the following key mappings to
 their `.vimrc`:
 
   ```vim
-  nmap <silent> <leader>qd :call quotable#init()<cr>    " forces defaults
-  nmap <silent> <leader>qs :call quotable#init({ 'double':'“”', 'single':'‘’' })<cr>
-  nmap <silent> <leader>qg :call quotable#init({ 'double':'„“', 'single':'‚‘' })<cr>
-  nmap <silent> <leader>qx :call quotable#init({ 'double':'„”', 'single':'‚’' })<cr>
-  nmap <silent> <leader>qf :call quotable#init({ 'double':'«»', 'single':'‹›' })<cr>
+  nnoremap <silent> <leader>qd :call quotable#init()<cr>    " forces defaults
+  nnoremap <silent> <leader>qn :call quotable#init({ 'double':'“”', 'single':'‘’' })<cr>
+  nnoremap <silent> <leader>qg :call quotable#init({ 'double':'„“', 'single':'‚‘' })<cr>
+  nnoremap <silent> <leader>qx :call quotable#init({ 'double':'„”', 'single':'‚’' })<cr>
+  nnoremap <silent> <leader>qf :call quotable#init({ 'double':'«»', 'single':'‹›' })<cr>
   ```
 
 ## See also
 
+* [quotable at vim.org](http://www.vim.org/scripts/script.php?script_id=4811)
+
 If you like this plugin, you might like these others from the same author:
 
+* [vim-colors-pencil](http://github.com/reedes/vim-colors-pencil) — A color scheme for Vim inspired by IA Writer
 * [vim-lexical](http://github.com/reedes/vim-lexical) - Building on Vim’s spell-check and thesaurus/dictionary completion
 * [vim-litecorrect](http://github.com/reedes/vim-litecorrect) - Lightweight auto-correction for Vim
-* [vim-thematic](http://github.com/reedes/vim-thematic) — Conveniently manage Vim’s appearance to suit your task and environment 
 * [vim-pencil](http://github.com/reedes/vim-pencil) - Rethinking Vim as a tool for writers
-* [vim-colors-pencil](http://github.com/reedes/vim-colors-pencil) — A color scheme for Vim inspired by IA Writer
-
-* [quotable at vim.org](http://www.vim.org/scripts/script.php?script_id=4811)
+* [vim-thematic](http://github.com/reedes/vim-thematic) — Conveniently manage Vim’s appearance to suit your task and environment 
 
 ## Future development
 
